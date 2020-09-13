@@ -1,17 +1,13 @@
 ---
-title: "Analysis of the Pied Flycatcher Data: Random Slopes"
+title: "Pied Flycatcher 2: Random Slopes"
 author: "Simon Bonner"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Pied Flycatchers -- Part II}
+  %\VignetteIndexEntry{Pied Flycatcher 2: Random Slopes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r,echo=FALSE}
-runModels <- FALSE # If true rerun models. OTW, reload previous output.
-```
 
 This vignette continues the example of the pied flycatchers discussed in the vignette "pied-flycatchers-1" by adding a random slope to the fixed effects model. I highly recommend that you work through the other vignette first.
 
@@ -41,34 +37,34 @@ pfdata$upper=log(pfdata$load+.05)
 # Model
 
 The model we consider will be the similar to the random effects model in "pied-flycatchers-1". We will modify this model by including a random, individual slope for the effect of $log(IVI)$ as well as the random intercept in the mean model. The new model for the mean will be:
-$$\mu=\beta_0 + \beta_1 \mathrm{log(IVI)_{ij}} + \beta_2 \mathrm{broodsize}_i + \beta_3 \mathrm{sex}_i + \epsilon_{1i} + \epsilon_{2i} \mathrm{log(IVI)_{ij}}$$
-For convenience, we will also simplify the model of the variance by assuming that the variance is constant across all observations. This can be done by setting:
-$$\log(\sigma)=\psi_0$$.
+$$\mu_{ij}=\beta_0 + \beta_1 \mathrm{log(IVI)_{ij}} + \beta_2 \mathrm{broodsize}_i + \beta_3 \mathrm{sex}_i + \epsilon_{1i} + \epsilon_{2i} \mathrm{log(IVI)_{ij}}$$
+For convenience, we will also simplify the model of the dispersion by assuming that the variance is constant across all observations. This can be done by setting:
+$$\log(\phi_{ij})=\psi_0$$.
 
-The objects defining the new mean and variance components are specified as:
+The objects defining the new mean and dispersion components are specified as:
 
 ```{r}
 # Random component of mean
 mymean=list(fixed=list(name="alpha",
-                formula=~ log(IVI) + broodsize + sex,
-                priors=list(c("dnorm",0,.001))),
-    random=list(name="epsilon",formula=~-1 + indidx + indidx:log(IVI)))
+                       formula=~ log(IVI) + broodsize + sex,
+                       priors=list(c("dnorm",0,.001))),
+            random=list(name="epsilon",
+                        formula=~-1 + indidx + indidx:log(IVI)))
 
 
-# Random component of variance
-myvar=list(fixed=list(name="psi",
-               link="log",
-               formula=~1,
-               priors=list(c("dnorm",0,.001))))
-
+# Random component of dispersion
+mydisp=list(fixed=list(name="psi",
+                       formula=~1,
+                       priors=list(c("dnorm",0,.001))),
+            link="log")
 ```
 
 ## Running the Model with dalmatian
 
-The new model can now be run using `dalmatian` in exactly the same way as above. However, we will make one change. In order to shorten the convergence time, we will base initial values on the results of the fixed effects model and then provide these as input. In particular, we will define initial values for the fixed effects of both the mean and variance components by taking the values from the final iterations of each of the chains run for the fixed effects model. For convenience, we set the random effects variances equal to 1 in all three chains. Note that the chains have been run for a relatively small number of iterations and heavily subsampled to satisfy the size requirements for packages on \texttt{CRAN}. Neither of these is recommended in practice.
+The new model can now be run using `dalmatian` in exactly the same way as above. However, we will make one change. In order to shorten the convergence time, we will base initial values on the results of the fixed effects model and then provide these as input. In particular, we will define initial values for the fixed effects of both the mean and dispersion components by taking the values from the final iterations of each of the chains run for the fixed effects model. For convenience, we set the random effects variances equal to 1 in all three chains. Note that the chains have been run for a relatively small number of iterations and heavily subsampled to satisfy the size requirements for packages on \texttt{CRAN}. Neither of these is recommended in practice.
 
 
-```{r}
+```{r, eval = FALSE}
 ## Set working directory
 ## By default uses a system temp directory. You probably want to change this.
 workingDir <- tempdir()
@@ -80,90 +76,104 @@ jm.args <- list(file=file.path(workingDir,"pied_flycatcher_3_jags.R"),n.adapt=10
 cs.args <- list(n.iter=1000)
 
 ## Run the model using dalmatian
-if(runModels){
-  pfresults3 <- dalmatian(df=pfdata,
-                          mean.model=mymean,
-                          variance.model=myvar,
-                          jags.model.args=jm.args,
-                          coda.samples.args=cs.args,
-                          rounding=TRUE,
-                          lower="lower",
-                          upper="upper",
-                          debug=FALSE)
-  
-  save(pfresults2,"pfresults3.RData")
-}
-if(!runModels){
-  ## Load output from previously run chain
-  load(system.file("Pied_Flycatchers_2","pfresults3.RData",package="dalmatian"))
-}
+pfmcmc3 <- dalmatian(df=pfdata,
+                     mean.model=mymean,
+                     dispersion.model=mydisp,
+                     jags.model.args=jm.args,
+                     coda.samples.args=cs.args,
+                     rounding=TRUE,
+                     lower="lower",
+                     upper="upper",
+                     debug=FALSE)
+```
 
+```{r, echo = FALSE}
+## Load output from previously run chain
+load(system.file("pfresults3.RData",package="dalmatian"))
 ```
 
 ## Results
-Once again, we can use the wrapper functions provided with `dalmatian` to conduct convergence diagnostics and compute summary statistics for the posterior distribution from which we can make inference. 
+Once again, we can use the wrapper functions provided with `dalmatian` to conduct convergence diagnostics and compute summary statistics for the posterior distribution from which we can make inference. Note that the chains have been thinned prior to creating the traceplots in order to reduce the size of the package.
 
 1. Convergence diagnostics
-```{r}
+```{r, eval = FALSE}
 ## Compute convergence diagnostics
-pfconvergence2 <- convergence(pfresults3,raftery=list(r=.01))
+pfconvergence3 <- convergence(pfmcmc3,raftery=list(r=.01))
 
+```
+
+```{r}
 ## Gelman-Rubin diagnostics
-pfconvergence2$gelman
+pfconvergence3$gelman
 
 ## Raftery diagnostics
-pfconvergence2$raftery
+pfconvergence3$raftery
 
 ## Effective sample size
-pfconvergence2$effectiveSize
+pfconvergence3$effectiveSize
 ```
 
 2. Traceplots
-```{r,fig.width=6,fig.align="center"}
+```{r, eval = FALSE}
 ## Generate traceplots
-pftraceplots2 <- traceplots(pfresults3,plot = FALSE)
+pftraceplots3 <- traceplots(pfmcmc3, nthin = 20, show = FALSE)
 
+```
+
+```{r,fig.width=6,fig.align="center"}
 ## Fixed effects for mean
-pftraceplots2$meanFixed
+pftraceplots3$meanFixed
 
-## Fixed effects for variance
-pftraceplots2$varianceFixed
+## Fixed effects for dispersion
+pftraceplots3$dispersionFixed
 
 ## Random effects variances for mean
-pftraceplots2$meanRandom
+pftraceplots3$meanRandom
 
-## Random effects variances for variances
-pftraceplots2$varianceRandom
+## Random effects variances for dispersion
+pftraceplots3$dispersionRandom
 
 ```
 
 3. Numerical summaries
-```{r}
+```{r, eval = FALSE}
 ## Compute numerical summaries
-summary(pfresults3)
+pfsummary3 <- summary(pfmcmc3)
+
+```
+
+```{r}
+## Print numerical summaries
+pfsummary3
 ```
 
 4. Graphical summaries
-```{r,fig.width=6,fig.align="center"}
+```{r, eval = FALSE}
 ## Generate caterpillar
-pfcaterpillar2 <- caterpillar(pfresults3,plot = FALSE)
+pfcaterpillar3 <- caterpillar(pfmcmc3,show = FALSE)
 
-## Fixed effects for mean
-pfcaterpillar2$meanFixed
-
-## Fixed effects for variance
-pfcaterpillar2$varianceFixed
 ```
 
-The convergence diagnostics and traceplots suggest that the chains should be run for longer. In particular, the effective sample size for the variance of the random slopes is very small, but we will proceed with inference for illustration. In the numerical summaries we see that the estimated variance of the random slopes is very small, .02 with 95% credible interval (.00,.04). This suggests that there is very little inter-individual variation in the effect of `log(IVI)`.
+```{r,fig.width=6,fig.align="center"}
+## Fixed effects for mean
+pfcaterpillar3$meanFixed
+
+## Fixed effects for dispersion
+pfcaterpillar3$dispersionFixed
+```
+
+The convergence diagnostics and traceplots suggest that the chains should be run for longer. In particular, the effective sample size for the variance of the random slopes is very small, but we will proceed with inference for illustration. In the numerical summaries we see that the estimated variance of the random slopes is very small, `r pfsummary3$meanRandom[2,"Mean"]` with 95% credible interval (`r pfsummary3$meanRandom[2,"Lower 95%"]`,`r pfsummary3$meanRandom[2,"Upper 95%"]`). This suggests that there is very little inter-individual variation in the effect of `log(IVI)`.
 
 Estimates of the individual random effects (predictions for frequentists) can be obtained from the function `ranef()`. This function computes posterior summary statistics for the individual random effects. In this case, the random effects for the mean include both the intercept and the effect of `log(IVI)`. 
 
 The following code computes the summary statistics and plots the predicted values of the random slopes with HPD 95% confidence intervals. 
-```{r,fig.width=6,fig.align="center"}
+```{r, eval = FALSE}
 ## Compute summary statistics for random effects
-ranef2 <- ranef(pfresults3)
+pfranef3 <- ranef(pfresults3)
 
+```
+
+```{r,fig.width=6,fig.align="center"}
 ## Load ggplot2
 library(ggplot2)
 
@@ -171,10 +181,10 @@ library(ggplot2)
 nind <- nlevels(pfdata$indidx)
 
 ## Plot predicted random slopes
-ggplot(data=as.data.frame(ranef2$mean[nind+(1:nind),]),aes(x=1:nind,y=Mean)) + 
+ggplot(data=as.data.frame(pfranef3$mean[nind+(1:nind),]),aes(x=1:nind,y=Mean)) + 
   geom_point() + 
   geom_errorbar(aes(ymin=`Lower 95%`,ymax=`Upper 95%`)) +
   geom_abline(intercept=0,slope=0)
 ```
-Note that the 95% crebile intervals for all of the values include 0. This is further evidence that the effect of `log(IVI)` does not vary significantly between the individuals.  
+Note that the 95% crebile intervals for all of the values include 0. This is further evidence that the effect of `log(IVI)` does not vary significantly between the individuals.
 

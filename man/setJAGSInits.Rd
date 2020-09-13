@@ -4,18 +4,26 @@
 \alias{setJAGSInits}
 \title{Set initial values for \code{dalmatian}}
 \usage{
-setJAGSInits(mean.model, variance.model, fixed.mean = NULL,
-  fixed.variance = NULL, y = NULL, random.mean = NULL, sd.mean = NULL,
-  random.variance = NULL, sd.variance = NULL)
+setJAGSInits(
+  mean.model,
+  dispersion.model,
+  fixed.mean = NULL,
+  fixed.dispersion = NULL,
+  y = NULL,
+  random.mean = NULL,
+  sd.mean = NULL,
+  random.dispersion = NULL,
+  sd.dispersion = NULL
+)
 }
 \arguments{
 \item{mean.model}{Model list specifying the structure of the mean. (list)}
 
-\item{variance.model}{Model list specifyint the structure of the variance. (list)}
+\item{dispersion.model}{Model list specifyint the structure of the dispersion. (list)}
 
 \item{fixed.mean}{Initial values for the fixed effects of the mean. (numeric)}
 
-\item{fixed.variance}{Initial values for the fixed effects of the variance. (numeric)}
+\item{fixed.dispersion}{Initial values for the fixed effects of the dispersion. (numeric)}
 
 \item{y}{Inital values for the true response. This should only be specified if the \code{rounding = TRUE} in the main call to dalmatian.}
 
@@ -23,9 +31,9 @@ setJAGSInits(mean.model, variance.model, fixed.mean = NULL,
 
 \item{sd.mean}{Initial values for the standard deviation of the random effects of the mean. (numeric)}
 
-\item{random.variance}{Initial values for the random effects of the variance. (numeric}
+\item{random.dispersion}{Initial values for the random effects of the dispersion. (numeric}
 
-\item{sd.variance}{Initial values for the standard deviation of the random effects of the variance. (numeric)}
+\item{sd.dispersion}{Initial values for the standard deviation of the random effects of the dispersion. (numeric)}
 }
 \value{
 inits (list)
@@ -36,27 +44,6 @@ Set initial values for \code{dalmatian}
 \details{
 Allows the user to set initial values for \code{dalmatian}. Any values
 not specified will by initialized by \code{JAGS}.
-}
-\examples{
-## Load pied flycatcher data
-data(pied_flycatchers_1)
-
-## Create variables bounding the true load
-pfdata$lower=ifelse(pfdata$load==0,log(.001),log(pfdata$load-.049))
-pfdata$upper=log(pfdata$load+.05)
-
-## Load output from previously run model
-load(system.file("Pied_Flycatchers_1","pfresults.RData",package="dalmatian"))
-
-## Set initial values for a new run of the same model
-inits <- lapply(1:3,function(i){
-  setJAGSInits(pfresults$mean.model,
-               pfresults$variance.model,
-               y = runif(nrow(pfdata),pfdata$lower,pfdata$upper),
-               fixed.mean = tail(pfresults$coda[[i]],1)[1:4],
-               fixed.variance = tail(pfresults$coda[[i]],1)[5:7],
-               sd.mean = 1)
-})
 }
 \author{
 Simon Bonner

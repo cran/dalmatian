@@ -4,9 +4,16 @@
 \alias{caterpillar.dalmatian}
 \title{Caterpillar (dalmatian)}
 \usage{
-\method{caterpillar}{dalmatian}(object, family = NULL,
-  nstart = start(object$coda), nend = end(object$coda),
-  nthin = thin(object$coda), plot = TRUE, ...)
+\method{caterpillar}{dalmatian}(
+  object,
+  family = NULL,
+  nstart = start(object$coda),
+  nend = end(object$coda),
+  nthin = thin(object$coda),
+  show = TRUE,
+  return_plots = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Object of class \code{dalmatian} created by \code{dalmatian()}.}
@@ -19,7 +26,9 @@
 
 \item{nthin}{Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).}
 
-\item{plot}{If TRUE then generate plots. Otherwise, a list of \code{ggplot} objects will be returned.}
+\item{show}{If TRUE then plots are displayed on the computer screen and the session is paused between each plot.}
+
+\item{return_plots}{If TRUE then a named list of ggplot objects containing the plots will be returned as output.}
 
 \item{...}{Ignored}
 }
@@ -28,13 +37,4 @@ A list of \code{ggplot} objects that can be used to later reproduce the plots vi
 }
 \description{
 Construct caterpillar plots for key (or selected) parameters in a dalmatian object.
-}
-\examples{
-
-## Load output from previously run model
-load(system.file("Pied_Flycatchers_1","pfresults.RData",package="dalmatian"))
-
-## Generate caterpillar
-pfcaterpillar <- caterpillar(pfresults,plot = FALSE)
-
 }

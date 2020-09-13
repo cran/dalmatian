@@ -4,8 +4,13 @@
 \alias{summary.dalmatian}
 \title{Summary (dalmatian)}
 \usage{
-\method{summary}{dalmatian}(object, nstart = start(object$coda),
-  nend = end(object$coda), nthin = thin(object$coda), ...)
+\method{summary}{dalmatian}(
+  object,
+  nstart = start(object$coda),
+  nend = end(object$coda),
+  nthin = thin(object$coda),
+  ...
+)
 }
 \arguments{
 \item{object}{Object of class \code{dalmatian} created by \code{dalmatian()}.}
@@ -23,12 +28,4 @@ output (list)
 }
 \description{
 Summary (dalmatian)
-}
-\examples{
-
-## Load output from previously run model
-load(system.file("Pied_Flycatchers_1","pfresults.RData",package="dalmatian"))
-
-## Compute numerical summaries
-summary(pfresults)
 }

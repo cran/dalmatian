@@ -4,14 +4,20 @@
 \alias{convergence.dalmatian}
 \title{Convergence}
 \usage{
-\method{convergence}{dalmatian}(object, pars = NULL,
-  nstart = start(object$coda), nend = end(object$coda),
-  nthin = coda::thin(object$coda), raftery = NULL, ...)
+\method{convergence}{dalmatian}(
+  object,
+  pars = NULL,
+  nstart = start(object$coda),
+  nend = end(object$coda),
+  nthin = coda::thin(object$coda),
+  raftery = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{Object of class \code{dalmatian} created by \code{dalmatian()}.}
 
-\item{pars}{List of parameters to assess. If NULL (default) then diagnostics are computed for the fixed effects and random effects standard deviations in both the mean and variance models.}
+\item{pars}{List of parameters to assess. If NULL (default) then diagnostics are computed for the fixed effects and random effects standard deviations in the mean, dispersion, and joint components.}
 
 \item{nstart}{Start point for computing summary statistics (relative to true start of chain).}
 
@@ -28,13 +34,4 @@ List containing Gelman-Rubin and Raftery convergence diagnostics and effective s
 }
 \description{
 Compute convergence diagnostics for a dalmatian object.
-}
-\examples{
-
-## Load output from previously run model
-load(system.file("Pied_Flycatchers_1","pfresults.RData",package="dalmatian"))
-
-## Compute convergence diagnostics
-pfconvergence <- convergence(pfresults)
-
 }
