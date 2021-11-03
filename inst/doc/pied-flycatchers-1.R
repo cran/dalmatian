@@ -52,7 +52,7 @@ load(system.file("pfresults1.RData",package="dalmatian"))
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  ## Compute convergence diagnostics
-#  pfconvergence1 <- convergence(pfmcmc)
+#  pfconvergence1 <- convergence(pfmcmc1)
 #  
 
 ## -----------------------------------------------------------------------------
