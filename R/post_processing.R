@@ -59,10 +59,15 @@ myCodaSummary <-
 #' @param object Object of class \code{dalmatian} created by \code{dalmatian()}.
 #' @param nstart Start point for computing summary statistics (relative to true start of chain).
 #' @param nend End point for computing summary statistics (relative to true start of chain).
-#' @param nthin Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).
+#' @param nthin Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).
 #' @param ... Ignored
 #'
 #' @return output (list)
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #' 
 summary.dalmatian <-
@@ -156,6 +161,11 @@ summary.dalmatian <-
 #' @param ... Ignored
 #'
 #' @return No return value. This function prints the summary of a dalmatian object in a nicely formatted manner. 
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #' 
 print.dalmatian.summary <- function(x, digits = 2, ...) {
@@ -217,6 +227,11 @@ print.dalmatian.summary <- function(x, digits = 2, ...) {
 #' @param ... Ignored
 #'
 #' @return List containing elements providing information on the predicted values of random effects as appropriate for the model. 
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #'
 ranef <- function(object, ...) {
@@ -230,10 +245,15 @@ ranef <- function(object, ...) {
 #' @param object Object of class \code{dalmatian} created by \code{dalmatian()}.
 #' @param nstart Start point for computing summary statistics (relative to true start of chain).
 #' @param nend End point for computing summary statistics (relative to true start of chain).
-#' @param nthin Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).
+#' @param nthin Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).
 #' @param ... Ignored
 #'
-#' @return List containing elements mean, dispersion, and/or joint as appropraite. Each element provides information on the predicted values of the random effects as appropriate for each component of the model. 
+#' @return List containing elements mean, dispersion, and/or joint as appropriate. Each element provides information on the predicted values of the random effects as appropriate for each component of the model. 
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #'
 ranef.dalmatian <-
@@ -269,6 +289,11 @@ ranef.dalmatian <-
 #' @param ... Ignored
 #'
 #' @return List containing Gelman-Rubin and Raftery convergence diagnostics and effective sample sizes for the selected parameters. This information is used to diagnose convergence of the MCMC sampling algorithms.
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #'
 convergence <- function(object, ...) {
@@ -283,11 +308,16 @@ convergence <- function(object, ...) {
 #' @param pars List of parameters to assess. If NULL (default) then diagnostics are computed for the fixed effects and random effects standard deviations in the mean, dispersion, and joint components.
 #' @param nstart Start point for computing summary statistics (relative to true start of chain).
 #' @param nend End point for computing summary statistics (relative to true start of chain).
-#' @param nthin Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).
+#' @param nthin Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).
 #' @param raftery List of arguments to be passed to \code{raftery.diag()}. Any values not provided will be set to their defaults (see \code{help(raftery.diag())} for details).
 #' @param ... Ignored
 #'
 #' @return List containing Gelman-Rubin and Raftery convergence diagnostics and effective sample sizes for the selected parameters. This information is used to diagnose convergence of the MCMC sampling algorithms.
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #'
 convergence.dalmatian <-
@@ -402,12 +432,17 @@ traceplots <- function(object, ...) {
 #' @param family String defining selected family of variables (see help for \code{ggs()}).
 #' @param nstart Start point for computing summary statistics (relative to true start of chain).
 #' @param nend End point for computing summary statistics (relative to true start of chain).
-#' @param nthin Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).
+#' @param nthin Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).
 #' @param show If TRUE then plots are displayed on the computer screen and the session is paused between each plot. 
 #' @param return_plots If TRUE then return list of \code{ggplot} objects.
 #' @param ... Ignored
 #'
 #' @return A list of \code{ggplot} objects that can be used to later reproduce the plots via \code{print}.
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 #'  
 traceplots.dalmatian <-
@@ -566,12 +601,17 @@ caterpillar <- function(object, ...) {
 #' @param family String defining selected family of variables (see help for \code{ggs()}).
 #' @param nstart Start point for computing summary statistics (relative to true start of chain).
 #' @param nend End point for computing summary statistics (relative to true start of chain).
-#' @param nthin Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).
+#' @param nthin Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).
 #' @param show If TRUE then plots are displayed on the computer screen and the session is paused between each plot. 
 #' @param return_plots If TRUE then a named list of ggplot objects containing the plots will be returned as output. 
 #' @param ... Ignored
 #'
 #' @return A list of \code{ggplot} objects that can be used to later reproduce the plots via \code{print}.
+#' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+#' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+#' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+#' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+#' \doi{10.18637/jss.v100.i10}.
 #' @export
 caterpillar.dalmatian <-
     function(object,
@@ -763,6 +803,11 @@ terms.dalmatian <- function(x,...){
 ##' @param ... Ignored
 ##' @return List of three lists named mean, dispersion, and joint each containing the posterior means of the coefficients
 ##' corresponding to the fixed and random terms of that model component (if present).
+##' @references Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+##' Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+##' for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+##' \code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+##' \doi{10.18637/jss.v100.i10}.
 ##' @export
 ##' @author Simon Bonner
 coef.dalmatian <- function(object,summary = NULL, ranef = NULL, ...){

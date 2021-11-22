@@ -19,13 +19,20 @@
 
 \item{nend}{End point for computing summary statistics (relative to true start of chain).}
 
-\item{nthin}{Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).}
+\item{nthin}{Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).}
 
 \item{...}{Ignored}
 }
 \value{
-List containing elements mean, dispersion, and/or joint as appropraite. Each element provides information on the predicted values of the random effects as appropriate for each component of the model.
+List containing elements mean, dispersion, and/or joint as appropriate. Each element provides information on the predicted values of the random effects as appropriate for each component of the model.
 }
 \description{
 Compute posterior summary statistics for the individual random effects in each part of the model.
+}
+\references{
+Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+\code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+\doi{10.18637/jss.v100.i10}.
 }

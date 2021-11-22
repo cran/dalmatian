@@ -12,7 +12,7 @@
 
 <meta name="author" content="Simon Bonner" />
 
-<meta name="date" content="2021-11-02" />
+<meta name="date" content="2021-11-22" />
 
 <title>Pied Flycatchers 1: Initial Models</title>
 
@@ -333,11 +333,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Pied Flycatchers 1: Initial Models</h1>
 <h4 class="author">Simon Bonner</h4>
-<h4 class="date">2021-11-02</h4>
+<h4 class="date">2021-11-22</h4>
 
 
 
-<p>As a first example of the functions in this package we will fit a model to the pied flycatcher data. We will start by fitting a model with fixed effects on the mean and dispersion components. Specifically, we will model the load returned on each trip by the adult flycatchers a independent normal random variables with mean given by a linear combination of the logarithm of the inter-visit interval (IVI), the broodsize manipulation (broodsize), and the adult’s sex, and standard deviation given by a linear combination of broodsize and sex, on the log scale. We will then incorporate individual random effects into this model.</p>
+<p>As a first example of the functions in this package we will fit a model to the pied flycatcher data. We will start by fitting a model with fixed effects on the mean and dispersion components. Specifically, we will model the load returned on each trip by the adult flycatchers a independent normal random variables with mean given by a linear combination of the logarithm of the inter-visit interval (IVI), the brood size manipulation (broodsize), and the adult’s sex, and standard deviation given by a linear combination of broodsize and sex, on the log scale. We will then incorporate individual random effects into this model.</p>
 <div id="library" class="section level1">
 <h1>Library</h1>
 <p>First you have to load the package:</p>
@@ -406,7 +406,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="results-1" class="section level2">
 <h2>Results</h2>
-<p>Inference is based on the output from the MCMC chain which is stored in the <code>coda</code> object. Summaries of the MCMC sampler and the posterior distribution can be constructed from <code>coda</code> with a variety of tools designed to work with objects of the <code>mcmc.list</code> class. For example, we can use the tools in the package <code>coda</code> to generate traceplots, density plots and histograms, numerical summaries of the posterior, and convergence diagnostics. The <code>ggmcmc</code> package can also be used to create fancier looking traceplots, density plots, and plots summarizing the posterior distribition in terms of posterior means and quantiles (credible intervals). However, several wrapper functions exist within the package to automate some of these tasks.</p>
+<p>Inference is based on the output from the MCMC chain which is stored in the <code>coda</code> object. Summaries of the MCMC sampler and the posterior distribution can be constructed from <code>coda</code> with a variety of tools designed to work with objects of the <code>mcmc.list</code> class. For example, we can use the tools in the package <code>coda</code> to generate traceplots, density plots and histograms, numerical summaries of the posterior, and convergence diagnostics. The <code>ggmcmc</code> package can also be used to create fancier looking traceplots, density plots, and plots summarizing the posterior distribution in terms of posterior means and quantiles (credible intervals). However, several wrapper functions exist within the package to automate some of these tasks.</p>
 <p>The first thing we should do is to check the convergence of the chains. Summary statistics computed from the output in <code>coda</code> are only valid if the chain has converged and is sampling from the correct distribution. The wrapper function <code>convergence()</code> applies three of the convergence diagnostics from the <code>coda</code> package.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compute convergence diagnostics</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pfconvergence1 <span class="ot">&lt;-</span> <span class="fu">convergence</span>(pfmcmc1)</span></code></pre></div>
@@ -486,7 +486,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="model-2-random-effects" class="section level1">
 <h1>Model 2: Random Effects</h1>
-<p>We will now consider adding individual (bird) random effects to both the fixed and random components of our model. This can be done by simply adding to the model components created above and then rerunnig the model. The new model will have mean and variance <span class="math display">\[\mu_{ij}=\beta_0 + \beta_1 \mathrm{log(IVI)}_{ij} + \beta_2 \mathrm{broodsize}_i + \beta_3 \mathrm{sex}_i + \epsilon_{i}}\]</span> and <span class="math display">\[\log(\phi_{ij})=\psi_0 + \psi_1 \mathrm{broodsize}_i + \psi_2\mathrm{sex}_i + \xi_j\]</span> where <span class="math inline">\(\epsilon_i \sim N(0,\tau^2_\mu)\)</span> and <span class="math inline">\(\xi_i \sim N(0,\tau^2_\phi)\)</span>. By default the variances <span class="math inline">\(\tau^2_\epsilon\)</span> and <span class="math inline">\(\tau^2_\xi\)</span> are assigned half-<span class="math inline">\(t\)</span> prior distributions.</p>
+<p>We will now consider adding individual (bird) random effects to both the fixed and random components of our model. This can be done by simply adding to the model components created above and then re-runnig the model. The new model will have mean and variance <span class="math display">\[\mu_{ij}=\beta_0 + \beta_1 \mathrm{log(IVI)}_{ij} + \beta_2 \mathrm{broodsize}_i + \beta_3 \mathrm{sex}_i + \epsilon_{i}}\]</span> and <span class="math display">\[\log(\phi_{ij})=\psi_0 + \psi_1 \mathrm{broodsize}_i + \psi_2\mathrm{sex}_i + \xi_j\]</span> where <span class="math inline">\(\epsilon_i \sim N(0,\tau^2_\mu)\)</span> and <span class="math inline">\(\xi_i \sim N(0,\tau^2_\phi)\)</span>. By default the variances <span class="math inline">\(\tau^2_\epsilon\)</span> and <span class="math inline">\(\tau^2_\xi\)</span> are assigned half-<span class="math inline">\(t\)</span> prior distributions.</p>
 <div id="model-1" class="section level2">
 <h2>Model</h2>
 <p>Instead of creating new model objects we can simply add to the old objects by creating the <code>random</code> fields. As with the fixed effects, these fields are lists which must include a basename for the random effects and formula specifying the random effects model.</p>

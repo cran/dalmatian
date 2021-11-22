@@ -23,7 +23,7 @@
 
 \item{nend}{End point for computing summary statistics (relative to true start of chain).}
 
-\item{nthin}{Thinning factor for computing summary statsitics (relative to full chain and not previously thinned output).}
+\item{nthin}{Thinning factor for computing summary statistics (relative to full chain and not previously thinned output).}
 
 \item{raftery}{List of arguments to be passed to \code{raftery.diag()}. Any values not provided will be set to their defaults (see \code{help(raftery.diag())} for details).}
 
@@ -34,4 +34,11 @@ List containing Gelman-Rubin and Raftery convergence diagnostics and effective s
 }
 \description{
 Compute convergence diagnostics for a dalmatian object.
+}
+\references{
+Bonner, S., Kim, H., Westneat, D., Mutzel, A.,
+Wright, J., and Schofield, M.. (2021). \code{dalmatian}: A Package
+for Fitting Double Hierarchical Linear Models in \code{R} via \code{JAGS} and
+\code{nimble}. \emph{Journal of Statistical Software}, 100, 10, 1--25.
+\doi{10.18637/jss.v100.i10}.
 }

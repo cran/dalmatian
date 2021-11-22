@@ -12,7 +12,7 @@
 
 <meta name="author" content="Simon Bonner" />
 
-<meta name="date" content="2021-11-02" />
+<meta name="date" content="2021-11-22" />
 
 <title>Implementation of Gamma Model</title>
 
@@ -333,14 +333,14 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Implementation of Gamma Model</h1>
 <h4 class="author">Simon Bonner</h4>
-<h4 class="date">2021-11-02</h4>
+<h4 class="date">2021-11-22</h4>
 
 
 
 <p>This package illustrates the implementation of the gamma model for analyzing data including a continuous response that is constrained to be positive. As an example we consider the analysis of a simulated data set. We recommend that you first work through the vignettes for the pied flycatcher data (“pied-flycatchers-1” and “pied-flycatchers-2”) which contain further information on the structure of the package.</p>
 <div id="gamma-model" class="section level1">
 <h1>Gamma model</h1>
-<p>The gamma distribution is parametrized in JAGS according to the shape parameter, <span class="math inline">\(r\)</span>, and the rate parameter, <span class="math inline">\(\lambda\)</span>. Given this parametrization the mean and variance of <span class="math inline">\(Y \sim \mbox{Gamma}(r,\lambda)\)</span> are <span class="math display">\[E(Y)=\mu=\frac{r}{\lambda}\]</span> and <span class="math display">\[\mbox{Var(Y)}=\frac{r}{\lambda^2}=\phi\mu\]</span> where <span class="math inline">\(\phi=1/\lambda\)</span> is the dispersion parameter.</p>
+<p>The gamma distribution is parameterized in JAGS according to the shape parameter, <span class="math inline">\(r\)</span>, and the rate parameter, <span class="math inline">\(\lambda\)</span>. Given this parametrization the mean and variance of <span class="math inline">\(Y \sim \mbox{Gamma}(r,\lambda)\)</span> are <span class="math display">\[E(Y)=\mu=\frac{r}{\lambda}\]</span> and <span class="math display">\[\mbox{Var(Y)}=\frac{r}{\lambda^2}=\phi\mu\]</span> where <span class="math inline">\(\phi=1/\lambda\)</span> is the dispersion parameter.</p>
 <p>In the implementation of the negative binomial double generalized linear mixed effects model the mean and variance for the <span class="math inline">\(i^{th}\)</span> observation are modelled as <span class="math display">\[
 g(\mu_i)=\eta_i=\mathbf x_{\mu,i}^\top \mathbf \alpha + \mathbf z_{\mu,i}^\top \mathbf \epsilon
 \]</span> and <span class="math display">\[
